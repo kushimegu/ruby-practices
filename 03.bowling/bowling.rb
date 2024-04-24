@@ -1,20 +1,21 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-score = ARGV[0]
-scores = score.split(',')
+game_score = ARGV[0]
+scores = game_score.split(',')
 
 frames = []
 frame = []
-scores.each do |roll|
-  frame << (roll == 'X' ? 10 : roll.to_i)
+scores.each do |score|
+  frame << (score == 'X' ? 10 : score.to_i)
 
-  next if frames.length < 9 && frame.length == 1 && frame != [10]
-  next if frames.length == 9 && (frame.length == 1 || (frame.length == 2 && frame.sum >= 10))
+  next if (frames.length == 9) || (frame.length == 1 && frame != [10])
 
   frames << frame
   frame = []
 end
+
+frames << frame
 
 point = 0
 frames.each_with_index do |frame_rolls, i|
