@@ -19,8 +19,8 @@ end
 def output_chart(files, chart)
   max_length = files.map(&:length).max
 
-  chart.each do |column|
-    column.each do |file|
+  chart.each do |row|
+    row.each do |file|
       print file.ljust(max_length + 1) unless file.nil?
     end
     print "\n"
