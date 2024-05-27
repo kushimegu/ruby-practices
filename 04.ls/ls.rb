@@ -1,32 +1,29 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def make_chart(files, column:)
-  row = if (files.size % column).zero?
-          files.size / column
-        else
-          files.size / column + 1
-        end
+def make_matrix(files, column)
+  row = files.size.ceildiv(column)
 
-  @chart = Array.new(row) { Array.new(column, nil) }
+  matrix = Array.new(row) { Array.new(column, nil) }
   files.each_with_index do |file, i|
     row_number = i % row
     column_number = i / row
-    @chart[row_number][column_number] = file
+    matrix[row_number][column_number] = file
   end
+  matrix
 end
 
-def output_chart(files, chart)
+def output_matrix(files, matrix)
   max_length = files.map(&:length).max
 
-  chart.each do |row|
+  matrix.each do |row|
     row.each do |file|
       print file.ljust(max_length + 1) unless file.nil?
     end
-    print "\n"
+    puts
   end
 end
 
 files = Dir.glob('*')
-make_chart(files, column: 3)
-output_chart(files, @chart)
+matrix = make_matrix(files, 3)
+output_matrix(files, matrix)
