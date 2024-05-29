@@ -27,6 +27,7 @@ def output_matrix(files, matrix)
 end
 
 options = ARGV.getopts('a')
-files = options['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
+flags = options['a'] ? File::FNM_DOTMATCH : 0
+files = Dir.glob('*', flags)
 matrix = make_matrix(files, 3)
 output_matrix(files, matrix)
