@@ -15,19 +15,27 @@ def make_matrix(files, column)
   matrix
 end
 
+def calculate_width(name)
+  return 0 if name.nil?
+
+  name.each_char.map { |char| char.bytesize == 1 ? 1 : 2 }.sum
+end
+
 def output_matrix(files, matrix)
-  max_length = files.map(&:length).max
+  max_width = files.map { |file| calculate_width(file) }.max + 1
 
   matrix.each do |row|
     row.each do |file|
-      print file.ljust(max_length + 1) unless file.nil?
+      next if file.nil?
+
+      width = max_width - calculate_width(file) + file.length
+      print file.ljust(width)
     end
     puts
   end
 end
 
-options = ARGV.getopts('a')
-flags = options['a'] ? File::FNM_DOTMATCH : 0
-files = Dir.glob('*', flags)
+options = ARGV.getopts('r')
+files = options['r'] ? Dir.glob('*').reverse : Dir.glob('*')
 matrix = make_matrix(files, 3)
 output_matrix(files, matrix)
