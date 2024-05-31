@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 def make_matrix(files, column)
   row = files.size.ceildiv(column)
 
@@ -24,6 +26,8 @@ def output_matrix(files, matrix)
   end
 end
 
-files = Dir.glob('*')
+options = ARGV.getopts('a')
+flags = options['a'] ? File::FNM_DOTMATCH : 0
+files = Dir.glob('*', flags)
 matrix = make_matrix(files, 3)
 output_matrix(files, matrix)
