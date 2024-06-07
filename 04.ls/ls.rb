@@ -22,32 +22,26 @@ def main
   end
 end
 
-def file_type(number)
-  type = {
-    '01' => 'p',
-    '02' => 'c',
-    '04' => 'd',
-    '06' => 'b',
-    '10' => '-',
-    '12' => '|',
-    '14' => 's'
-  }
-  type[number]
-end
+TYPE = {
+  '01' => 'p',
+  '02' => 'c',
+  '04' => 'd',
+  '06' => 'b',
+  '10' => '-',
+  '12' => '|',
+  '14' => 's'
+}.freeze
 
-def file_mode(number)
-  mode = {
-    '0' => '---',
-    '1' => '--x',
-    '2' => '-w-',
-    '3' => '-wx',
-    '4' => 'r--',
-    '5' => 'r-x',
-    '6' => 'rw-',
-    '7' => 'rwx'
-  }
-  mode[number]
-end
+MODE = {
+  '0' => '---',
+  '1' => '--x',
+  '2' => '-w-',
+  '3' => '-wx',
+  '4' => 'r--',
+  '5' => 'r-x',
+  '6' => 'rw-',
+  '7' => 'rwx'
+}.freeze
 
 def format_time_or_year(mtime)
   now = Time.now
@@ -62,10 +56,10 @@ end
 def list_stats(file)
   stats = File.stat(file)
   mode = format('%06o', stats.mode)
-  type = file_type(mode[0, 2])
-  mode_owner = file_mode(mode[3])
-  mode_group = file_mode(mode[4])
-  mode_other = file_mode(mode[5])
+  type = TYPE[mode[0, 2]]
+  mode_owner = MODE[mode[3]]
+  mode_group = MODE[mode[4]]
+  mode_other = MODE[mode[5]]
   link = stats.nlink
   user_name = Etc.getpwuid(stats.uid).name
   group_name = Etc.getgrgid(stats.gid).name
