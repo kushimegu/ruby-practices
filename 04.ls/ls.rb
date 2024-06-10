@@ -22,7 +22,7 @@ def main
   end
 end
 
-TYPE = {
+FILE_TYPE_MAP = {
   '01' => 'p',
   '02' => 'c',
   '04' => 'd',
@@ -32,7 +32,7 @@ TYPE = {
   '14' => 's'
 }.freeze
 
-MODE = {
+FILE_MODE_MAP = {
   '0' => '---',
   '1' => '--x',
   '2' => '-w-',
@@ -56,10 +56,10 @@ end
 def list_stats(file)
   stats = File.stat(file)
   mode = format('%06o', stats.mode)
-  type = TYPE[mode[0, 2]]
-  mode_owner = MODE[mode[3]]
-  mode_group = MODE[mode[4]]
-  mode_other = MODE[mode[5]]
+  type = FILE_TYPE_MAP[mode[0, 2]]
+  mode_owner = FILE_MODE_MAP[mode[3]]
+  mode_group = FILE_MODE_MAP[mode[4]]
+  mode_other = FILE_MODE_MAP[mode[5]]
   link = stats.nlink
   user_name = Etc.getpwuid(stats.uid).name
   group_name = Etc.getgrgid(stats.gid).name
