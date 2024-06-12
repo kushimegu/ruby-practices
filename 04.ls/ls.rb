@@ -6,8 +6,9 @@ require 'etc'
 require 'date'
 
 def main
-  options = ARGV.getopts('l')
-  files = Dir.glob('*')
+  options = ARGV.getopts('arl')
+  flags = options['a'] ? File::FNM_DOTMATCH : 0
+  files = options['r'] ? Dir.glob('*', flags).reverse : Dir.glob('*', flags)
   if options['l']
     total_blocks = files.sum { |file| File.stat(file).blocks }
     puts "total #{total_blocks}"
@@ -60,7 +61,7 @@ def list_stats(file)
   mode_owner = FILE_MODE_MAP[mode[3]]
   mode_group = FILE_MODE_MAP[mode[4]]
   mode_other = FILE_MODE_MAP[mode[5]]
-  link = stats.nlink
+  link = format('%2d', stats.nlink)
   user_name = Etc.getpwuid(stats.uid).name
   group_name = Etc.getgrgid(stats.gid).name
   size = format('%4d', stats.size)
