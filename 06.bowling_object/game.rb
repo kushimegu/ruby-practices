@@ -4,12 +4,20 @@ require_relative 'frame'
 
 class Game
   def initialize(shots)
-    @shots = shots
+    @frames = []
+    frame = []
+    shots.each do |shot|
+      frame << shot
+      next if (@frames.length == 9) || (frame.length == 1 && frame != ['X'])
+
+      @frames << Frame.new(*frame)
+      frame = []
+    end
+    @frames << Frame.new(*frame)
   end
 
   def score
     total_score = 0
-    @frames = sort_by_frames.map { |frame| Frame.new(*frame) }
     @frames.each_with_index do |frame, i|
       total_score += frame.score
       break if i == 9
@@ -17,20 +25,6 @@ class Game
       total_score += calculate_bonus_score(frame, i)
     end
     total_score
-  end
-
-  def sort_by_frames
-    frames = []
-    frame = []
-    @shots.each do |shot|
-      frame << shot
-      next if (frames.length == 9) || (frame.length == 1 && frame != ['X'])
-
-      frames << frame
-      frame = []
-    end
-    frames << frame
-    frames
   end
 
   def calculate_bonus_score(frame, index)
