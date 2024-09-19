@@ -15,13 +15,13 @@ class Frame
     [@first_shot.score, @second_shot.score, @third_shot.score].sum
   end
 
-  ALL_PINS = 10
+  ALL_PINS_SCORE = 10
 
   def strike?
-    @first_shot.score == ALL_PINS
+    @first_shot.score == ALL_PINS_SCORE
   end
 
   def spare?
-    @first_shot.score != ALL_PINS && [@first_shot.score, @second_shot.score].sum == ALL_PINS
+    @first_shot.score != ALL_PINS_SCORE && [@first_shot.score, @second_shot.score].sum == ALL_PINS_SCORE
   end
 end
