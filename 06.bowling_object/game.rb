@@ -3,12 +3,15 @@
 require_relative 'frame'
 
 class Game
+  FINAL_FRAME_INDEX = 9
+  STRIKE = 'X'
+
   def initialize(shots)
     @frames = []
     frame = []
     shots.each do |shot|
       frame << shot
-      next if (@frames.length == 9) || (frame.length == 1 && frame != ['X'])
+      next if (@frames.length == FINAL_FRAME_INDEX) || (frame.length == 1 && frame != [STRIKE])
 
       @frames << Frame.new(*frame)
       frame = []
@@ -20,7 +23,7 @@ class Game
     total_score = 0
     @frames.each_with_index do |frame, i|
       total_score += frame.score
-      break if i == 9
+      break if i == FINAL_FRAME_INDEX
 
       total_score += calculate_bonus_score(frame, i)
     end
@@ -30,7 +33,7 @@ class Game
   def calculate_bonus_score(frame, index)
     if frame.strike?
       if @frames[index + 1].strike?
-        10 + (@frames[index + 2] ? @frames[index + 2].first_shot.score : @frames[index + 1].second_shot.score)
+        Frame::ALL_PINS_SCORE + (@frames[index + 2] ? @frames[index + 2].first_shot.score : @frames[index + 1].second_shot.score)
       else
         @frames[index + 1].first_shot.score + @frames[index + 1].second_shot.score
       end
