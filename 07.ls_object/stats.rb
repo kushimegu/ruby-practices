@@ -47,6 +47,8 @@ class Stats
     [type + mode_owner + mode_group + mode_other, link, user_name, group_name, size, month, day, time_or_year, @file]
   end
 
+  private
+
   def format_time_or_year(mtime)
     now = Time.now
     today = now.to_date
