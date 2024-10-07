@@ -10,7 +10,7 @@ class LongFormat < BaseFormat
   end
 
   def reverse
-    super
+    @files.reverse!
     @stats.reverse!
     self
   end

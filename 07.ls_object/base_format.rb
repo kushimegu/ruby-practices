@@ -6,7 +6,10 @@ class BaseFormat
   end
 
   def reverse
-    @files.reverse!
-    self
+    raise NotImplementedError
+  end
+
+  def output
+    raise NotImplementedError
   end
 end

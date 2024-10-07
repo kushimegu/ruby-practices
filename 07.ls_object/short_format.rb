@@ -3,6 +3,11 @@
 require_relative 'base_format'
 
 class ShortFormat < BaseFormat
+  def reverse
+    @files.reverse!
+    self
+  end
+
   def output
     matrix = make_matrix
     max_width = @files.map { |file| calculate_width(file) }.max + 1
