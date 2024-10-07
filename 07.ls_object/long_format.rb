@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'stats'
+require_relative 'status'
 require_relative 'base_format'
 
 class LongFormat < BaseFormat
