@@ -6,7 +6,7 @@ require_relative 'base_format'
 class LongFormat < BaseFormat
   def initialize(flags)
     super(flags)
-    @stats = @files.map { |file| Stats.new(file) }
+    @stats = @files.map { |file| Status.new(file) }
   end
 
   def reverse
